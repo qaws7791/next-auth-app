@@ -121,11 +121,9 @@ export function AccountForm() {
 }
 
 function SubmitButton() {
-  const status = useFormStatus();
+  const { pending } = useFormStatus();
   return (
-    <button disabled={status === "loading"}>
-      {status === "loading" ? "Loading..." : "Submit"}
-    </button>
+    <button disabled={pending}>{pending ? "Submitting..." : "Submit"}</button>
   );
 }
 ```
