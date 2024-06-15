@@ -1,4 +1,7 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Comments Auth App💬
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://
+github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
@@ -16,21 +19,113 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Language: <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
+- Authentication: <img src="https://img.shields.io/badge/json%20web%20tokens-323330?style=for-the-badge&logo=json-web-tokens&logoColor=pink">
+- Styling: <img src="https://img.shields.io/badge/tailwindcss-0F172A?&style=for-the-badge&logo=tailwindcss">
+- Deploy and Database: <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"> [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)
+- Frontend and Server: <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
+- Validation: <img src="https://img.shields.io/badge/-Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white">
+- ORM: <img src="https://img.shields.io/badge/Drizzle-C5F74F?logo=drizzle&logoColor=000&style=for-the-badge" alt="Drizzle Badge">
 
-## Learn More
+## Sequence Diagram
 
-To learn more about Next.js, take a look at the following resources:
+```mermaid
+sequenceDiagram
+    Client(Form)->>Server(Nextjs): formData
+    loop Optional
+        Server(Nextjs)->>DB: Query
+        DB->>Server(Nextjs): QueryResult
+    end
+    Server(Nextjs)->>Client(Form): formState
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. Create the schema
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Create a database table at `/drizzle/schemas.ts`
 
-## Deploy on Vercel
+```typescript
+export const usersTable = pgTable("users", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull(),
+  password: text("password").notNull(),
+});
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 1.5 migrate the schema using Drizzle
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. create a migration file
+
+```bash
+npx drizzle-kit generate
+```
+
+2. run the migration
+
+```bash
+npx drizzle-kit migrate
+```
+
+### 2. Create queries
+
+Define the database queries to use in `/drizzle/queries.ts`
+
+```typescript
+export async function insertUser(data: InsertUser) {
+  const result = await db.insert(usersTable).values(data).returning();
+  return result[0];
+}
+```
+
+### 3. Create `<form>` actions
+
+Define the actions you want to associate with your form in `/lib/actions.ts`
+
+```tsx
+export async function action(
+  state: FormState,
+  formData: FormData
+): Promise<FormState> {
+  // 1. validate the form data
+  //   1.1 if the form data is invalid, return the error as a form state
+  // 2. preprocessing the data
+  // 3. send the data to the server or database
+  // 4. return the form state or redirect to another page
+}
+```
+
+### 4. create and use the `<form>` components
+
+Create a form wherever you want and attach actions to it using `useFormState` Track the progress of your form using `useFormStatus`
+
+```tsx
+import { useFormState, useFormStatus } from "react-dom";
+export function AccountForm() {
+  const [state, formAction] = useFormState(action, undefined);
+
+  return (
+    <form onSubmit={formAction}>
+      <div>
+        <input type="email" name="email" />
+        <p>{state?.error?.email}</p>
+      </div>
+      <div>
+        <input type="password" name="password" />
+        <p>{state.error?.password}</p>
+      </div>
+      <p>{state?.message}</p>
+      <SubmitButton />
+    </form>
+  );
+}
+
+function SubmitButton() {
+  const status = useFormStatus();
+  return (
+    <button disabled={status === "loading"}>
+      {status === "loading" ? "Loading..." : "Submit"}
+    </button>
+  );
+}
+```
