@@ -29,6 +29,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Validation: <img src="https://img.shields.io/badge/-Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white">
 - ORM: <img src="https://img.shields.io/badge/Drizzle-C5F74F?logo=drizzle&logoColor=000&style=for-the-badge" alt="Drizzle Badge">
 
+## Features
+
+| 메인                                                                                                    | 로그인                                                                                                                          | 댓글 작성                                                                                                         | 마이페이지                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| ![main](https://github.com/qaws7791/next-auth-app/assets/56753677/4bfe1a45-9288-44a4-8c04-e2d5ef1751cf) | ![캡처_2024_06_16_23_21_45_695](https://github.com/qaws7791/next-auth-app/assets/56753677/f357bd7a-1b19-4138-b157-0ad646301f99) | ![create-comment](https://github.com/qaws7791/next-auth-app/assets/56753677/26b26625-6c75-4bf4-a058-056b767bafa0) | ![캡처_2024_06_16_23_22_56_174](https://github.com/qaws7791/next-auth-app/assets/56753677/a0fe1bde-97c4-47fd-8f81-198b569eb567) |
+
 ## Sequence Diagram
 
 ```mermaid
