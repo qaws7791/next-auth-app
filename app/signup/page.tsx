@@ -2,7 +2,6 @@ import AccountForm from "@/components/account-form";
 import { signup } from "@/lib/actions";
 import { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "가입하기",

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { logout } from "@/lib/actions";
-import React from "react";
 
 export default function SignOutButton() {
   return (

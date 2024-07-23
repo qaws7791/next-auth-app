@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { fetchMyComments } from "@/lib/api";
 import { myCommentsOptions } from "@/lib/query-options";
 import { formatDate } from "@/lib/utils";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";

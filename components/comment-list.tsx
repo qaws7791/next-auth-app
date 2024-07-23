@@ -1,10 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { fetchComments } from "@/lib/api";
 import { commentsOptions } from "@/lib/query-options";
 import { formatDate } from "@/lib/utils";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function CommentList() {
   const btnRef = useRef<HTMLButtonElement>(null);

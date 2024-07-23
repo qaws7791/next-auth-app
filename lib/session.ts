@@ -2,7 +2,6 @@ import "server-only";
 import { SessionPayload } from "@/lib/types";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const secretKey = process.env.SECRET_KEY!;
 const key = new TextEncoder().encode(secretKey);

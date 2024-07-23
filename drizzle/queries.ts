@@ -7,7 +7,7 @@ import {
   SelectUser,
   usersTable,
 } from "@/drizzle/schemas";
-import { and, desc, eq, gt, lt } from "drizzle-orm";
+import { and, eq, lt } from "drizzle-orm";
 
 export async function insertUser(data: InsertUser) {
   const result = await db.insert(usersTable).values(data).returning();
